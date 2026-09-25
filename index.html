@@ -3,17 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Li-Fi Optical Transmitter & Receiver</title>
+    <title>Li-Fi Pro • Optical Wireless Data Transmission System</title>
     <style>
         :root {
-            --bg-color: #0f172a;
-            --card-bg: #1e293b;
+            --bg-deep: #020617;
+            --glass-bg: rgba(15, 23, 42, 0.8);
+            --glass-border: rgba(56, 189, 248, 0.2);
             --primary: #38bdf8;
+            --primary-glow: rgba(56, 189, 248, 0.4);
             --accent: #818cf8;
             --text-main: #f8fafc;
             --text-muted: #94a3b8;
-            --border: #334155;
-            --success: #22c55e;
+            --success: #10b981;
+            --danger: #ef4444;
+            --card-radius: 20px;
         }
 
         * {
@@ -21,278 +24,617 @@
             margin: 0;
             padding: 0;
             font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            -webkit-tap-highlight-color: transparent;
         }
 
+        /* Dynamic Sci-Fi Animated Background */
         body {
-            background-color: var(--bg-color);
+            background: linear-gradient(135deg, #020617, #090d16, #0f172a, #042f2e);
+            background-size: 400% 400%;
+            animation: cosmicShift 18s ease infinite;
             color: var(--text-main);
             min-height: 100vh;
             display: flex;
             flex-direction: column;
             align-items: center;
-            padding: 20px;
+            justify-content: space-between;
+            padding: 16px;
+            overflow-x: hidden;
         }
 
-        .container {
+        @keyframes cosmicShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Gorgeous Welcome Splash Screen with Action Button */
+        #splashScreen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at center, #0f172a 0%, #020617 100%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            padding: 40px 20px;
+            z-index: 9999;
+            transition: opacity 0.6s ease, visibility 0.6s;
+        }
+
+        #splashScreen.fade-out {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .splash-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin: auto;
+            text-align: center;
+            gap: 16px;
+        }
+
+        .splash-logo {
+            font-size: 2.8rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #38bdf8, #818cf8, #c084fc);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: corePulse 2s infinite alternate;
+            letter-spacing: 1px;
+        }
+
+        .splash-sub {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+        }
+
+        @keyframes corePulse {
+            0% { transform: scale(0.96); filter: drop-shadow(0 0 10px rgba(56,189,248,0.3)); }
+            100% { transform: scale(1.04); filter: drop-shadow(0 0 25px rgba(129,140,248,0.6)); }
+        }
+
+        /* Flow To Li-Fi Button */
+        .flow-btn {
+            background: linear-gradient(135deg, #06b6d4, #38bdf8, #818cf8);
+            color: #020617;
+            border: none;
+            border-radius: 30px;
+            padding: 14px 36px;
+            font-size: 1.05rem;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 0 25px rgba(56, 189, 248, 0.4);
+            transition: transform 0.2s, box-shadow 0.2s;
+            letter-spacing: 0.5px;
+            margin-top: 20px;
+        }
+
+        .flow-btn:active {
+            transform: scale(0.95);
+        }
+
+        .splash-footer {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            letter-spacing: 0.5px;
+        }
+
+        .splash-footer span {
+            background: linear-gradient(135deg, #38bdf8, #818cf8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 600;
+        }
+
+        /* Main Workspace Container */
+        .app-container {
             width: 100%;
             max-width: 480px;
             display: flex;
             flex-direction: column;
-            gap: 20px;
+            gap: 14px;
+            margin: auto 0;
         }
 
+        /* Impressive Header Styling */
         header {
             text-align: center;
-            padding: 15px 0;
-            border-bottom: 1px solid var(--border);
+            padding-bottom: 4px;
         }
 
         header h1 {
-            font-size: 1.5rem;
-            color: var(--primary);
-            font-weight: 700;
+            font-size: 1.6rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #ffffff, #38bdf8, #818cf8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
             letter-spacing: 0.5px;
+            filter: drop-shadow(0 2px 8px rgba(56, 189, 248, 0.25));
         }
 
         header p {
-            font-size: 0.85rem;
+            font-size: 0.82rem;
             color: var(--text-muted);
             margin-top: 4px;
+            letter-spacing: 0.3px;
         }
 
-        .card {
-            background-color: var(--card-bg);
-            border: 1px solid var(--border);
-            border-radius: 14px;
-            padding: 20px;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.2);
+        /* Glassmorphism Cards */
+        .glass-panel {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--card-radius);
+            padding: 16px;
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5);
         }
 
-        .card h2 {
-            font-size: 1.1rem;
+        .panel-header {
+            font-size: 0.9rem;
+            font-weight: 700;
             margin-bottom: 12px;
             color: var(--text-main);
             display: flex;
             align-items: center;
-            gap: 8px;
+            justify-content: space-between;
         }
 
+        .badge-pill {
+            font-size: 0.72rem;
+            padding: 3px 10px;
+            background: rgba(56, 189, 248, 0.15);
+            color: #38bdf8;
+            border-radius: 20px;
+            border: 1px solid rgba(56, 189, 248, 0.35);
+            font-weight: 600;
+        }
+
+        /* Zone Selection Grid (Zone 1 to Zone 10) */
+        .zone-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 8px;
+            margin-bottom: 12px;
+            max-height: 180px;
+            overflow-y: auto;
+            padding-right: 4px;
+        }
+
+        .zone-btn {
+            background: rgba(15, 23, 42, 0.85);
+            border: 1px solid var(--glass-border);
+            color: var(--text-muted);
+            border-radius: 10px;
+            padding: 10px 12px;
+            font-size: 0.82rem;
+            font-weight: 600;
+            cursor: pointer;
+            text-align: left;
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .zone-btn:hover {
+            border-color: var(--primary);
+            color: var(--text-main);
+            background: rgba(30, 41, 59, 0.9);
+        }
+
+        .zone-btn.active {
+            background: linear-gradient(135deg, #0284c7, #2563eb);
+            color: #ffffff;
+            border-color: #38bdf8;
+            box-shadow: 0 0 15px var(--primary-glow);
+            font-weight: 700;
+        }
+
+        .preview-box {
+            background: rgba(2, 6, 23, 0.7);
+            border: 1px solid var(--glass-border);
+            border-radius: 10px;
+            padding: 10px 12px;
+            font-size: 0.82rem;
+            color: var(--text-muted);
+            min-height: 48px;
+            display: flex;
+            align-items: center;
+        }
+
+        .preview-box span {
+            color: #38bdf8;
+            font-weight: 500;
+            margin-left: 4px;
+            word-break: break-all;
+        }
+
+        /* Custom Input Textarea */
         textarea {
             width: 100%;
-            height: 100px;
-            background-color: #0b0f19;
-            border: 1px solid var(--border);
-            border-radius: 8px;
+            height: 75px;
+            background: rgba(2, 6, 23, 0.7);
+            border: 1px solid var(--glass-border);
+            border-radius: 10px;
             color: var(--text-main);
-            padding: 12px;
-            font-size: 0.95rem;
+            padding: 10px 12px;
+            font-size: 0.85rem;
             resize: none;
             outline: none;
-            transition: border-color 0.2s;
+            transition: all 0.2s ease;
         }
 
         textarea:focus {
             border-color: var(--primary);
+            box-shadow: 0 0 15px var(--primary-glow);
         }
 
-        .btn-group {
-            display: flex;
-            gap: 10px;
-            margin-top: 12px;
-        }
-
-        button {
-            flex: 1;
-            background: linear-gradient(135deg, var(--primary), var(--accent));
-            color: #0f172a;
+        /* Action Transmitter Button */
+        .transmit-btn {
+            width: 100%;
+            background: linear-gradient(135deg, #06b6d4, #38bdf8, #818cf8);
+            color: #020617;
             border: none;
-            border-radius: 8px;
-            padding: 12px;
-            font-weight: 600;
-            font-size: 0.95rem;
+            border-radius: 12px;
+            padding: 14px;
+            font-weight: 800;
+            font-size: 0.98rem;
             cursor: pointer;
-            transition: opacity 0.2s, transform 0.1s;
+            box-shadow: 0 6px 25px rgba(6, 182, 212, 0.4);
+            transition: transform 0.15s ease, opacity 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            letter-spacing: 0.4px;
         }
 
-        button:active {
+        .transmit-btn:active {
             transform: scale(0.98);
         }
 
-        button:disabled {
-            opacity: 0.5;
+        .transmit-btn:disabled {
+            opacity: 0.4;
             cursor: not-allowed;
+            box-shadow: none;
         }
 
-        .status-box {
-            margin-top: 12px;
-            padding: 10px;
-            background-color: #0b0f19;
-            border-radius: 6px;
-            font-size: 0.85rem;
-            color: var(--text-muted);
+        /* Telemetry Panel */
+        .telemetry-panel {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .telemetry-row {
             display: flex;
             justify-content: space-between;
             align-items: center;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        .telemetry-status {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-weight: 600;
+            color: var(--text-main);
         }
 
         .status-dot {
-            width: 10px;
-            height: 10px;
+            width: 8px;
+            height: 8px;
             border-radius: 50%;
-            background-color: var(--text-muted);
-            display: inline-block;
+            background: var(--text-muted);
+            transition: all 0.3s;
         }
 
         .status-dot.active {
-            background-color: var(--success);
-            box-shadow: 0 0 8px var(--success);
+            background: var(--success);
+            box-shadow: 0 0 12px var(--success);
+            animation: opticalBlink 0.3s infinite alternate;
         }
 
-        .binary-display {
-            font-family: monospace;
-            background: #0b0f19;
+        @keyframes opticalBlink {
+            0% { opacity: 0.2; transform: scale(0.9); }
+            100% { opacity: 1; transform: scale(1.1); }
+        }
+
+        /* Mandatory Robust Error Banner */
+        .error-banner {
+            background: rgba(239, 68, 68, 0.18);
+            border: 1px solid var(--danger);
+            color: #fca5a5;
             padding: 10px;
-            border-radius: 6px;
+            border-radius: 10px;
             font-size: 0.8rem;
-            color: var(--primary);
-            word-break: break-all;
-            margin-top: 10px;
-            max-height: 60px;
-            overflow-y: auto;
+            display: none;
+            text-align: center;
+            font-weight: 600;
         }
 
+        .binary-telemetry {
+            font-family: monospace;
+            background: rgba(2, 6, 23, 0.85);
+            border: 1px solid rgba(56, 189, 248, 0.1);
+            padding: 8px 10px;
+            border-radius: 8px;
+            font-size: 0.74rem;
+            color: #38bdf8;
+            max-height: 50px;
+            overflow-y: auto;
+            word-break: break-all;
+        }
+
+        /* Permanent Footer Branding */
         footer {
             text-align: center;
             font-size: 0.75rem;
             color: var(--text-muted);
-            margin-top: auto;
-            padding: 15px 0;
+            padding-top: 6px;
+            letter-spacing: 0.5px;
+        }
+
+        footer span {
+            background: linear-gradient(135deg, #38bdf8, #818cf8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 600;
         }
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <header>
-            <h1>Li-Fi Communicator</h1>
-            <p>Optical Light Fidelity Data Transmission</p>
-        </header>
-
-        <!-- Transmitter Section -->
-        <div class="card">
-            <h2>📤 Optical Transmitter</h2>
-            <textarea id="messageInput" placeholder="Type secret message to transmit via Flashlight..."></textarea>
-            
-            <div class="btn-group">
-                <button id="transmitBtn" onclick="startTransmission()">Transmit Data</button>
-                <button id="stopBtn" onclick="stopTransmission()" style="background: #ef4444; color: white;" disabled>Stop</button>
-            </div>
-
-            <div class="status-box">
-                <span>Torch Status: <strong id="torchState" style="color: var(--text-main);">OFF</strong></span>
-                <span class="status-dot" id="statusDot"></span>
-            </div>
-            
-            <div class="binary-display" id="binaryOutput">Binary Stream: Waiting for input...</div>
+    <!-- Professional Welcome Splash Screen with Flow Button & Tag -->
+    <div id="splashScreen">
+        <div class="splash-content">
+            <div class="splash-logo">Li-Fi Pro System</div>
+            <div class="splash-sub">Optical Wireless Data Modulation</div>
+            <button class="flow-btn" onclick="enterApp()">Flow To Li-Fi 🚀</button>
         </div>
-
-        <!-- Receiver Simulation Section -->
-        <div class="card">
-            <h2>📥 Receiver Simulator</h2>
-            <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 10px;">Simulates optical signal capture and decoding via camera frame analysis.</p>
-            <div style="background: #0b0f19; height: 120px; border-radius: 8px; display: flex; align-items: center; justify-content: center; border: 1px dashed var(--border);">
-                <span style="font-size: 0.85rem; color: var(--text-muted);">Receiver Sensor Active</span>
-            </div>
+        <div class="splash-footer">
+            Developed by <span>@urs_rushi_</span>
         </div>
-
-        <footer>
-            <span>100% Client-Side • Lifetime Uptime • Zero Watermark</span>
-        </footer>
     </div>
 
+    <div class="app-container">
+        <header>
+            <h1>Li-Fi Optical Transmitter</h1>
+            <p>High-Speed Wireless Light Modulation Protocol</p>
+        </header>
+
+        <!-- Option A: Smart Campus Zones (Zone 1 to Zone 10) -->
+        <div class="glass-panel">
+            <div class="panel-header">
+                <span>Option A: Select Zone (1 to 10)</span>
+                <span class="badge-pill" id="activeZoneLabel">Select Zone</span>
+            </div>
+            <div class="zone-grid" id="zoneGrid">
+                <!-- Zone 1 to Zone 10 injected dynamically -->
+            </div>
+            <div class="preview-box">
+                Payload:&nbsp;<span id="zonePreviewText">Tap Zone 1-10 or type custom data below</span>
+            </div>
+        </div>
+
+        <!-- Option B: Custom Typing Mode -->
+        <div class="glass-panel">
+            <div class="panel-header">
+                <span>Option B: Custom Message</span>
+                <span class="badge-pill" style="background: rgba(129,140,248,0.15); color:#818cf8; border-color:rgba(129,140,248,0.35);">Live Input</span>
+            </div>
+            <textarea id="customInput" placeholder="Type custom message to auto-switch stream mode..."></textarea>
+        </div>
+
+        <!-- Action & Telemetry Panel -->
+        <div class="glass-panel telemetry-panel">
+            <button id="transmitBtn" class="transmit-btn" onclick="startTransmission()">
+                ⚡ Send via Li-Fi Optical Beam
+            </button>
+            
+            <div id="errorBanner" class="error-banner">
+                Turn on flashlight settings and resend data
+            </div>
+
+            <div class="telemetry-row">
+                <span>Torch Status: <strong id="torchState" style="color:var(--text-main);">STANDBY</strong></span>
+                <div class="telemetry-status">
+                    <span id="statusText">Ready</span>
+                    <span class="status-dot" id="statusDot"></span>
+                </div>
+            </div>
+
+            <div class="binary-telemetry" id="binaryDisplay">Binary Stream: Awaiting Transmission Packet...</div>
+        </div>
+    </div>
+
+    <!-- Permanent Footer Branding -->
+    <footer>
+        Developed by <span>@urs_rushi_</span>
+    </footer>
+
     <script>
+        // High-Precision Smart Campus Zones (Zone 1 to Zone 10)
+        const zoneData = {
+            1: "Zone 1: Main Gate Security Biometric & ID Clearance Verified",
+            2: "Zone 2: Academic Block-A ECE Core IoT Sensor Broadcast",
+            3: "Zone 3: VLSI & Embedded Systems Laboratory Hub Active",
+            4: "Zone 4: Central Library Digital Archive Cloud Link Up",
+            5: "Zone 5: Main Auditorium Smart Media & Lighting Gateway",
+            6: "Zone 6: Campus Canteen Automated POS & Billing Beacon",
+            7: "Zone 7: Indoor Sports Arena Telemetry & Score Sync Node",
+            8: "Zone 8: Smart Parking Perimeter Automated Surveillance Link",
+            9: "Zone 9: Hostel Complex Main Gate Optical Access Point",
+            10: "Zone 10: Administrative Block Central Server Command Hub"
+        };
+
+        let selectedZone = null;
+        let activeMode = null; // 'zone' or 'custom'
         let isTransmitting = false;
         let torchTrack = null;
 
-        async function initCamera() {
+        // Initialize camera hardware on load
+        window.addEventListener('load', () => {
+            initCameraHardware();
+            renderZoneGrid();
+        });
+
+        // Function to enter app when "Flow To Li-Fi" button is clicked
+        function enterApp() {
+            const splash = document.getElementById('splashScreen');
+            splash.classList.add('fade-out');
+        }
+
+        // Initialize Flashlight / Camera Hardware Track
+        async function initCameraHardware() {
             try {
                 const stream = await navigator.mediaDevices.getUserMedia({
                     video: { facingMode: 'environment' }
                 });
                 torchTrack = stream.getVideoTracks()[0];
             } catch (err) {
-                console.log("Torch/Camera access note:", err);
+                console.log("Hardware init note:", err);
             }
         }
 
-        // Initialize hardware on load
-        window.addEventListener('load', initCamera);
+        // Render Zone Buttons 1 to 10 with clear labels
+        function renderZoneGrid() {
+            const grid = document.getElementById('zoneGrid');
+            for (let i = 1; i <= 10; i++) {
+                const btn = document.createElement('button');
+                btn.className = 'zone-btn';
+                btn.innerHTML = `<span>Zone ${i}</span> <span style="font-size:0.7rem; opacity:0.6;">Z${i}</span>`;
+                btn.onclick = (e) => selectZone(i, btn);
+                grid.appendChild(btn);
+            }
+        }
 
-        function textToBinary(text) {
+        // Select Zone Handler
+        function selectZone(zoneNum, btnElement) {
+            document.querySelectorAll('.zone-btn').forEach(b => b.classList.remove('active'));
+            btnElement.classList.add('active');
+            
+            selectedZone = zoneNum;
+            activeMode = 'zone';
+            
+            // Clear custom input field
+            document.getElementById('customInput').value = '';
+            
+            const payload = zoneData[zoneNum];
+            document.getElementById('zonePreviewText').textContent = payload;
+            document.getElementById('activeZoneLabel').textContent = `Zone ${zoneNum} Active`;
+        }
+
+        // Custom Input Event Listener (Auto-switch mode)
+        document.getElementById('customInput').addEventListener('input', (e) => {
+            const val = e.target.value.trim();
+            if (val.length > 0) {
+                activeMode = 'custom';
+                selectedZone = null;
+                document.querySelectorAll('.zone-btn').forEach(b => b.classList.remove('active'));
+                document.getElementById('activeZoneLabel').textContent = 'Custom Stream';
+                document.getElementById('zonePreviewText').textContent = val;
+            } else {
+                activeMode = null;
+                document.getElementById('activeZoneLabel').textContent = 'Select Zone';
+                document.getElementById('zonePreviewText').textContent = 'Tap Zone 1-10 or type custom data below';
+            }
+        });
+
+        // Text to 8-bit Binary Encoder
+        function textToBinaryStream(text) {
             return text.split('').map(char => {
                 return char.charCodeAt(0).toString(2).padStart(8, '0');
             }).join(' ');
         }
 
-        async function setTorch(state) {
+        // Hardware Torch Controller with Robust Error Handling
+        async function setTorchState(state) {
             const dot = document.getElementById('statusDot');
             const stateText = document.getElementById('torchState');
-            
-            if (torchTrack) {
-                try {
+            const errorBanner = document.getElementById('errorBanner');
+
+            try {
+                if (torchTrack) {
                     await torchTrack.applyConstraints({
                         advanced: [{ torch: state }]
                     });
-                } catch (e) {
-                    console.log("Hardware torch constraint failed, simulating UI state.");
+                } else {
+                    const stream = await navigator.mediaDevices.getUserMedia({
+                        video: { facingMode: 'environment' }
+                    });
+                    torchTrack = stream.getVideoTracks()[0];
+                    await torchTrack.applyConstraints({
+                        advanced: [{ torch: state }]
+                    });
                 }
+                errorBanner.style.display = 'none';
+            } catch (err) {
+                // Mandatory robust error message catch
+                errorBanner.style.display = 'block';
+                console.error("Torch Exception:", err);
             }
 
             if (state) {
                 dot.classList.add('active');
-                stateText.textContent = 'BLINKS (ON)';
+                stateText.textContent = 'PULSING (ON)';
                 stateText.style.color = 'var(--success)';
             } else {
                 dot.classList.remove('active');
-                stateText.textContent = 'OFF';
+                stateText.textContent = 'STANDBY';
                 stateText.style.color = 'var(--text-main)';
             }
         }
 
+        // Transmission Engine
         async function startTransmission() {
-            const text = document.getElementById('messageInput').value;
-            if (!text) {
-                alert('Please enter a message to transmit!');
+            let activePayload = '';
+
+            if (activeMode === 'zone' && selectedZone !== null) {
+                activePayload = zoneData[selectedZone];
+            } else if (activeMode === 'custom') {
+                activePayload = document.getElementById('customInput').value;
+            }
+
+            if (!activePayload || activePayload.trim() === '') {
+                alert('Please select a Zone (1 to 10) or enter a Custom message!');
                 return;
             }
 
-            const binary = textToBinary(text);
-            document.getElementById('binaryOutput').textContent = 'Binary: ' + binary;
+            const binaryCode = textToBinaryStream(activePayload);
+            document.getElementById('binaryDisplay').textContent = 'Binary: ' + binaryCode;
 
-            document.getElementById('transmitBtn').disabled = true;
-            document.getElementById('stopBtn').disabled = false;
+            const transmitBtn = document.getElementById('transmitBtn');
+            transmitBtn.disabled = true;
+            document.getElementById('statusText').textContent = 'Modulating...';
             isTransmitting = true;
 
-            // Convert string to array of bits and blink flashlight
-            const bits = binary.replace(/\s+/g, '').split('');
-            
-            for (let i = 0; i < bits.length && isTransmitting; i++) {
-                if (bits[i] === '1') {
-                    await setTorch(true);
+            const bitArray = binaryCode.replace(/\s+/g, '').split('');
+
+            for (let i = 0; i < bitArray.length && isTransmitting; i++) {
+                if (bitArray[i] === '1') {
+                    await setTorchState(true);
                 } else {
-                    await setTorch(false);
+                    await setTorchState(false);
                 }
-                await new Promise(resolve => setTimeout(resolve, 200)); // 200ms per bit
+                await new Promise(resolve => setTimeout(resolve, 140)); // 140ms bit pulse
             }
 
-            stopTransmission();
-        }
-
-        function stopTransmission() {
+            await setTorchState(false);
+            transmitBtn.disabled = false;
+            document.getElementById('statusText').textContent = 'Ready';
             isTransmitting = false;
-            setTorch(false);
-            document.getElementById('transmitBtn').disabled = false;
-            document.getElementById('stopBtn').disabled = true;
         }
     </script>
 </body>
