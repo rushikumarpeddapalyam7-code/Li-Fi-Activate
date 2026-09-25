@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <title>Li-Fi Optical Wireless Data Transmission System</title>
+    <link rel="stylesheet" href="./src/style.css" />
+  </head>
+  <body>
+    <!-- Splash Screen -->
+    <div id="splash">
+      <div class="splash-inner">
+        <div class="splash-logo">📡</div>
+        <h1>Welcome</h1>
+        <p>Li-Fi Optical Wireless Data Transmission System</p>
+      </div>
+    </div>
+
+    <div id="app" class="app-hidden">
+      <header class="app-header">
+        <div class="brand">
+          <span class="brand-icon">💡</span>
+          <div>
+            <h1>Li-Fi Optical Transmitter</h1>
+            <p class="subtitle">Optical Wireless Data Transmission Console</p>
+          </div>
+        </div>
+        <div class="status-pill" id="hardwareStatus">
+          <span class="dot"></span> Torch: Checking&hellip;
+        </div>
+      </header>
+
+      <main class="main-grid">
+        <!-- Mode Switcher + Selection Panel -->
+        <section class="panel glass" id="selectionPanel">
+          <div class="mode-switch" id="modeSwitch">
+            <button type="button" class="mode-btn active" id="modeZoneBtn" data-mode="zone">
+              <span class="mode-icon">🗺️</span> Zone Selection
+            </button>
+            <button type="button" class="mode-btn" id="modeCustomBtn" data-mode="custom">
+              <span class="mode-icon">⌨️</span> Custom Typing
+            </button>
+          </div>
+
+          <div class="mode-panel" id="zoneModePanel">
+            <h2>Zone Selector <span class="hint">(Tap a zone 1&ndash;10)</span></h2>
+            <div class="zone-grid" id="zoneGrid"></div>
+          </div>
+
+          <div class="mode-panel hidden" id="customModePanel">
+            <h2>Custom Message</h2>
+            <textarea
+              id="customMessage"
+              class="text-input"
+              placeholder="Type a custom message to transmit&hellip;"
+              maxlength="120"
+              rows="4"
+            ></textarea>
+            <p class="hw-note">Typing here automatically switches the app to Custom Typing mode.</p>
+          </div>
+        </section>
+
+        <!-- Preview & Transmission Panel -->
+        <section class="panel glass" id="transmitPanel">
+          <h2>Live Preview</h2>
+          <div class="preview-box" id="previewBox">
+            <div class="preview-row">
+              <span class="preview-label">Mode</span>
+              <span class="preview-value" id="previewSource">Zone Selection</span>
+            </div>
+            <div class="preview-row">
+              <span class="preview-label">Label</span>
+              <span class="preview-value" id="previewName">&mdash;</span>
+            </div>
+            <div class="preview-row">
+              <span class="preview-label">Transmit Data</span>
+              <span class="preview-value code" id="previewCode">&mdash;</span>
+            </div>
+          </div>
+
+          <button id="sendBtn" class="send-btn" disabled>
+            <span class="send-icon">📶</span> Send via Li-Fi
+          </button>
+
+          <div class="tx-status" id="txStatus"></div>
+
+          <div class="progress-wrap" id="progressWrap">
+            <div class="progress-bar" id="progressBar"></div>
+          </div>
+        </section>
+
+        <!-- System Info Panel -->
+        <section class="panel glass" id="infoPanel">
+          <h2>How It Works</h2>
+          <ul class="hw-list">
+            <li><span class="hw-icon">🔦</span> Device flashlight blinks encoded binary pulses</li>
+            <li><span class="hw-icon">🌐</span> Each character is transmitted as 8-bit optical pulses</li>
+            <li><span class="hw-icon">📊</span> Live progress bar tracks transmission completion</li>
+            <li><span class="hw-icon">⚠️</span> Torch errors are caught safely &mdash; the app never crashes</li>
+          </ul>
+          <p class="hw-note">
+            This system uses your device camera flashlight as a Li-Fi optical transmitter.
+            A photodiode/LDR-based receiver on the other end can decode the light pulses back
+            into the original zone code or custom message.
+          </p>
+        </section>
+      </main>
+
+      <footer class="app-footer">Developed by @urs_rushi_</footer>
+    </div>
+
+    <script type="module" src="./src/main.js"></script>
+  </body>
+</html>
